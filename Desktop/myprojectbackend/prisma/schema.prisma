@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+ 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------
+// Tabela User
+// -----------------------------------------------------------
+model User {
+  id        Int      @id @default(autoincrement()) // Chave primária, tipo inteiro, auto-incrementa.
+  firstname String   // Primeiro nome do usuário. String por padrão não permite nulos.
+  surname   String   // Sobrenome do usuário.
+  email     String   @unique // Endereço de email. O '@unique' garante que não haverá emails duplicados.
+  password  String   // Senha (armazenaremos o hash aqui).
+  createdAt DateTime @default(now()) // Data e hora de criação do registro. Preenche automaticamente com a data/hora atual.
+  updatedAt DateTime @updatedAt    // Data e hora da última atualização do registro. Atualiza automaticamente.
+}
