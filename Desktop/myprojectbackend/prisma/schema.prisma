@@ -15,7 +15,7 @@ datasource db {
 }
 
 // -----------------------------------------------------------
-// Tabela User
+// Tabelas
 // -----------------------------------------------------------
 model User {
   id        Int      @id @default(autoincrement()) // Chave primária, tipo inteiro, auto-incrementa.
@@ -25,4 +25,96 @@ model User {
   password  String   // Senha (armazenaremos o hash aqui).
   createdAt DateTime @default(now()) // Data e hora de criação do registro. Preenche automaticamente com a data/hora atual.
   updatedAt DateTime @updatedAt    // Data e hora da última atualização do registro. Atualiza automaticamente.
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  slug        String   @unique
+  use_in_menu Boolean? @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  products    ProductCategory[] // muitos-para-muitos
+}
+
+model Product {
+  id                Int       @id @default(autoincrement())
+  enabled           Boolean?  @default(false)
+  name              String
+  slug              String    @unique
+  use_in_menu       Boolean?  @default(false)
+  stock             Int?      @default(0)
+  description       String?
+  price             Float
+  price_with_discount Float
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Adicionar para o relacionamento com ProductImage
+  images            ProductImage[] // Um produto pode ter muitas imagens
+
+// Um produto terá muitas entradas na tabela de junção
+  categories        ProductCategory[] // Relacionamento Muitos-Para-Muitos
+  options           ProductOption[]
+
+}
+
+model ProductImage {
+  id          Int      @id @default(autoincrement())
+  productId   Int
+  enabled     Boolean? @default(false)
+  path        String
+
+  // Relacionamento com Product
+  product     Product  @relation(fields: [productId], references: [id]) // Define o relacionamento
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//--------------------
+//Enums para Opções do produto
+//--------------------
+
+enum ProductOptionShape {
+  square
+  circle
+}
+
+enum ProductOptionType {
+  text
+  color
+}
+
+
+model ProductOption {
+  id          Int      @id @default(autoincrement())
+  productId   Int
+  title       String
+  shape       ProductOptionShape? @default(square)
+  radius      Int?                @default(0)
+  type        ProductOptionType?  @default(text)
+  values      String
+
+  //Para o relacionamento com o produto
+  product     Product             @relation(fields: [productId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+//Tabela de junção produtos e categorias
+
+model ProductCategory {
+  productId  Int
+  categoryId Int
+
+  product    Product  @relation(fields: [productId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@id([productId, categoryId])
 }
