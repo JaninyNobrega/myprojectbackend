@@ -10,6 +10,7 @@ app.use(express.json());
 
 // Importando as rotas
 const userRoutes = require('./routes/user.routes');
+const categoryRoutes = require('./routes/category.routes');
 
 
 app.get('/', (req, res) => {
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 // Usando as rotas
 app.use('/v1/user', userRoutes);
+app.use('/v1/category', categoryRoutes);
 
 
 module.exports = app;
