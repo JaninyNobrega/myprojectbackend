@@ -1,9 +1,12 @@
 {
   "name": "myprojectbackend",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/services/server.js",
+    "dev": "nodemon --exec \"node\" src/services/server.js",
+    "test": "jest",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
@@ -11,7 +14,9 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.9.0",
+    "bcryptjs": "^3.0.2",
     "chalk": "^4.1.2",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
     "pg": "^8.16.0"
