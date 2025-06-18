@@ -11,7 +11,7 @@ router.get('/search', categoryControllers.searchCategoriesController);
 router.get('/:id', categoryControllers.getCategoryByIdController);
 
 // Rota para criar uma nova categoria
-router.post('/', authMiddleware, categoryControllers.createCategoryController); 
+router.post('/', categoryControllers.createCategoryController); 
 
 // Rota para atualizar uma categoria existente
 router.put('/:id', authMiddleware, categoryControllers.updateCategoryController);
