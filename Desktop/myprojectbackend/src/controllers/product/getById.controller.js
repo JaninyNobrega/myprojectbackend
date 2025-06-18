@@ -1,6 +1,6 @@
 const productServices = require('../../services/product');
 
-
+// Controlador para obter um produto pelo seu ID.
 // GET /v1/product/:id
 
 const getProductByIdController = async (req, res) => {

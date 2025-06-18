@@ -9,4 +9,7 @@ router.get('/search', productControllers.searchProductsController);
 // Rota para obter um produto pelo ID
 router.get('/:id', productControllers.getProductByIdController);
 
+// Rota para criar um novo produto
+router.post('/', productControllers.createProductController);
+
 module.exports = router;
