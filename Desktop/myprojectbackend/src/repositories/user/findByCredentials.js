@@ -1,19 +1,19 @@
 const prisma = require('../../config/prisma');
 
-const findUserByEmailRepository = async (email) => {
+const findUserByCredentials = async (email, password) => {
   const user = await prisma.user.findUnique({
-    where: { email: email },
+    where: {
+      email: email,
+      password: password, 
+    },
     select: {
       id: true,
-      firstname: true,
-      surname: true,
       email: true,
-      password: true,
     },
   });
   return user;
 };
 
 module.exports = {
-  findUserByEmailRepository,
+  findUserByCredentials,
 };

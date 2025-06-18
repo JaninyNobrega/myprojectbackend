@@ -1,5 +1,6 @@
 const express = require('express');
 const productControllers = require('../controllers/product');
+const { authMiddleware } = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
@@ -10,12 +11,12 @@ router.get('/search', productControllers.searchProductsController);
 router.get('/:id', productControllers.getProductByIdController);
 
 // Rota para criar um novo produto
-router.post('/', productControllers.createProductController);
+router.post('/', authMiddleware, productControllers.createProductController); 
 
 // Rota para atualizar um produto existente
-router.put('/:id', productControllers.updateProductController);
+router.put('/:id', authMiddleware, productControllers.updateProductController); 
 
 // Rota para deletar um produto pelo ID
-router.delete('/:id', productControllers.deleteProductController);
+router.delete('/:id', authMiddleware, productControllers.deleteProductController);
 
 module.exports = router;

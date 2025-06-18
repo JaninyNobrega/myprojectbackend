@@ -1,5 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
+require('dotenv').config(); //carregar JWT_SECRET
 
 
 dotenv.config();
@@ -7,6 +9,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // Importando as rotas
 const userRoutes = require('./routes/user.routes');
@@ -22,6 +25,11 @@ app.get('/', (req, res) => {
 app.use('/v1/user', userRoutes);
 app.use('/v1/category', categoryRoutes);
 app.use('/v1/product', productRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
 
 // Tratamento de rotas não encontradas (404)
 app.use((req, res, next) => {

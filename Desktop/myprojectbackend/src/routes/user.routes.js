@@ -1,5 +1,6 @@
 const express = require('express');
 const userControllers = require('../controllers/user'); // Importa todos os controllers de usuário
+const { authMiddleware } = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
@@ -13,10 +14,13 @@ router.post('/', userControllers.createUserController);
 
 // Rota para atualizar um usuário existente (PUT)
 // PUT /v1/user/:id
-router.put('/:id', userControllers.updateUserController);
+router.put('/:id', authMiddleware, userControllers.updateUserController);
 
 // Adicionar esta rota para deletar um usuário
 // DELETE /v1/user/:id
-router.delete('/:id', userControllers.deleteUserController);
+router.delete('/:id', authMiddleware, userControllers.deleteUserController);
+
+// Rota para gerar um token de autenticação (POST)
+router.post('/token', userControllers.generateTokenController);
 
 module.exports = router;

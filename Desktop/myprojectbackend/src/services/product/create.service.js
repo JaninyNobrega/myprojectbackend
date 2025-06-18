@@ -11,30 +11,30 @@ const createProduct = async (productData) => {
     category_ids,
     images,
     options,
-    enabled = false, // Default para enabled
-    stock = 0, // Default para stock
-    description = null, // Default para description
+    enabled = false, 
+    stock = 0,
+    description = null, 
     price_with_discount = 0 // Default para price_with_discount
   } = productData;
 
   if (!name || typeof name !== 'string' || name.trim().length === 0) {
     throw new Error('O nome do produto é obrigatório.');
   }
-  if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
-    throw new Error('O slug do produto é obrigatório.');
-  }
-  if (typeof price !== 'number' || price <= 0) {
-    throw new Error('O preço do produto é obrigatório e deve ser um número positivo.');
-  }
-  if (!Array.isArray(category_ids) || category_ids.length === 0) {
-    throw new Error('Pelo menos uma category_id é obrigatória.');
-  }
-  if (!Array.isArray(images) || images.length === 0) {
-    throw new Error('Pelo menos uma imagem é obrigatória.');
-  }
-  if (!Array.isArray(options)) { // Options pode ser vazio
-    throw new Error('As opções do produto devem ser um array.');
-  }
+  // if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+  //   throw new Error('O slug do produto é obrigatório.');
+  // }
+  // if (typeof price !== 'number' || price <= 0) {
+  //   throw new Error('O preço do produto é obrigatório e deve ser um número positivo.');
+  // }
+  // if (!Array.isArray(category_ids) || category_ids.length === 0) {
+  //   throw new Error('Pelo menos uma category_id é obrigatória.');
+  // }
+  // if (!Array.isArray(images) || images.length === 0) {
+  //   throw new Error('Pelo menos uma imagem é obrigatória.');
+  // }
+  // if (!Array.isArray(options)) { // Options pode ser vazio
+  //   throw new Error('As opções do produto devem ser um array.');
+  // }
 
   // 2. Validação de Formato e Existência de Relacionamentos
  
@@ -58,28 +58,28 @@ const createProduct = async (productData) => {
     throw new Error(`As seguintes category_ids não foram encontradas: ${missingIds.join(', ')}.`);
   }
 
-  // 2.3 Validação de Imagens
-  for (const img of images) {
-    if (!img.content || typeof img.content !== 'string' || !img.content.startsWith('http')) {
-      throw new Error('Cada imagem deve ter um campo "content" que seja uma URL válida.');
-    }
-  }
+  // // 2.3 Validação de Imagens
+  // for (const img of images) {
+  //   if (!img.content || typeof img.content !== 'string' || !img.content.startsWith('http')) {
+  //     throw new Error('Cada imagem deve ter um campo "content" que seja uma URL válida.');
+  //   }
+  // }
 
-  // 2.4 Validação de Opções
-  for (const opt of options) {
-    if (!opt.title || typeof opt.title !== 'string' || opt.title.trim().length === 0) {
-      throw new Error('Cada opção deve ter um título.');
-    }
-    if (!opt.shape || typeof opt.shape !== 'string' || opt.shape.trim().length === 0) {
-      throw new Error('Cada opção deve ter uma forma (shape).');
-    }
-    if (!opt.type || typeof opt.type !== 'string' || opt.type.trim().length === 0) {
-      throw new Error('Cada opção deve ter um tipo (type).');
-    }
-    if (!Array.isArray(opt.values) || opt.values.length === 0) {
-      throw new Error('Cada opção deve ter um array de valores não vazio.');
-    }
-  }
+  // // 2.4 Validação de Opções
+  // for (const opt of options) {
+  //   if (!opt.title || typeof opt.title !== 'string' || opt.title.trim().length === 0) {
+  //     throw new Error('Cada opção deve ter um título.');
+  //   }
+  //   if (!opt.shape || typeof opt.shape !== 'string' || opt.shape.trim().length === 0) {
+  //     throw new Error('Cada opção deve ter uma forma (shape).');
+  //   }
+  //   if (!opt.type || typeof opt.type !== 'string' || opt.type.trim().length === 0) {
+  //     throw new Error('Cada opção deve ter um tipo (type).');
+  //   }
+  //   if (!Array.isArray(opt.values) || opt.values.length === 0) {
+  //     throw new Error('Cada opção deve ter um array de valores não vazio.');
+  //   }
+  // }
 
   // 3. Preparar dados para o repositório
   const dataToCreate = {
